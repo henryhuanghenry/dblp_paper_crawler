@@ -2,6 +2,7 @@
 
 # dblp_paper_crawler
 - Crawl the dblp for related papers with given venue names and key words.
+- Output the realted article title, year, link to the article and link to the bibtex. 
 - The main code is in [search_papers_in_dblp.py](./search_papers_in_dblp.py)
 
 ## Outputs
