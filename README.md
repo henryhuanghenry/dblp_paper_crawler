@@ -2,6 +2,7 @@
 
 # dblp_paper_crawler
 - Crawl the dblp for related papers with given venue names and key words.
+- The main code is in search_papers_in_dblp.py
 
 ## Outputs
 
