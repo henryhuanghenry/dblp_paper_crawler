@@ -1,4 +1,4 @@
-![img](output_example.png)
+![img](output_example_0.png)
 
 # dblp_paper_crawler
 - Crawl the dblp for related papers with given venue names and key words.
@@ -22,4 +22,4 @@ pip install bs4
 pip install urllib
 pip install requests
 ```
-## 
+ 
