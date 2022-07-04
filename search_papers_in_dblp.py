@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm as tqdm
 import numpy as np
 import os
+import time
 
 # Inputs
 conference_names = ["ICSE", "FSE", "ASE", "ISSTA", "SOSP", "OSDI", "ATC", "NSDI",
@@ -67,6 +68,11 @@ for name in tqdm(conference_names+journal_names, desc="{Searching}", delay=0.1):
         if result_search.status_code == 404:
             print("404 when searching {} in venue {}!".format(key_word, name))
             continue
+        # slow down the query and retry
+        while result_search.status_code == 429:
+            # According to https://dblp.org/faq/Am+I+allowed+to+crawl+the+dblp+website.html
+            time.sleep(1)
+            result_search = requests.get(search_url)
         # parse the xml result
         result_search_parsed = BeautifulSoup(result_search.text, features="xml")
         result_search_parsed = result_search_parsed.find_all("hit")
