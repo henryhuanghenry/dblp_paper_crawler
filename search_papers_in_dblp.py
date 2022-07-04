@@ -15,6 +15,8 @@ journal_names = ["TSE", "TOSEM", "TDSC", "TPDS", "ESE"]
 key_words = ["AAA BBB", "CCC DDD", "EEE FFF GGG"]
 
 start_year = 2021
+
+result_file_name = "search_result"
 # Customize the inputs above, and the crawler is ready to go. 
 
 # Other parameters
@@ -93,7 +95,7 @@ for name in tqdm(conference_names+journal_names, desc="{Searching}", delay=0.1):
     result_dict[name] = sorted(result_dict[name], key=lambda x: x[1], reverse=True)
 
 # output results search_result.md and search_result.npy
-with open("search_result.md", "w", encoding="utf-8") as file:
+with open(result_file_name + ".md", "w", encoding="utf-8") as file:
     file.write("# Results\n")
     for name in result_dict.keys():
         file.write("## {}\n\n".format(name))
@@ -103,5 +105,5 @@ with open("search_result.md", "w", encoding="utf-8") as file:
             file.write("| {} | {} | [article_link]({}) | [bib]({}) |\n".format(i[1], i[0], i[2], i[3]))
         file.write("\n\n")
 
-np.save("search_result.npy", result_dict, allow_pickle=True)
+np.save(result_file_name + ".npy", result_dict, allow_pickle=True)
 
