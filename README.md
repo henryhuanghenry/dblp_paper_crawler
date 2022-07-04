@@ -15,6 +15,8 @@ journal_names = ["TSE", "TOSEM", "TDSC", "TPDS", "ESE"]
 key_words = ["AAA BBB", "CCC DDD", "EEE FFF GGG"]
 
 start_year = 2021
+
+result_file_name = "search_result"
 ```
 
 ## Outputs
@@ -36,4 +38,7 @@ pip install bs4
 pip install urllib
 pip install requests
 ```
+ ## Am I allowed to crawl the dblp website?
+ > You are allowed to crawl the dblp website.
  
+ Please refer to [dblp policy](https://dblp.org/faq/Am+I+allowed+to+crawl+the+dblp+website.html) for more details.
