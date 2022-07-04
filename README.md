@@ -7,12 +7,12 @@
 
 ## Outputs
 
-- A Markdowm file 
+- A Markdown file 
   - year
   - title
   - article link
   - bibtex link
-- A .npy file
+- A ".npy" file
 
 ## Required packages
 
