@@ -15,7 +15,7 @@ journal_names = ["TSE", "TOSEM", "TDSC", "TPDS", "ESE"]
 key_words = ["AAA BBB", "CCC DDD", "EEE FFF GGG"]
 
 start_year = 2021
-
+# Customize the inputs above, and the crawler is ready to go. 
 
 # Other parameters
 ## url example "https://dblp.org/search/publ/api?q=NAME%20cause%20venue%3AOSDI&h=1000&format=xml"
