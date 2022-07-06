@@ -7,18 +7,19 @@ from tqdm import tqdm as tqdm
 import numpy as np
 import os
 import time
+import pandas as pd
 
 # Inputs
 conference_names = ["ICSE", "FSE", "ASE", "ISSTA", "SOSP", "OSDI", "ATC", "NSDI",
                     "DSN", "ISSRE", "ASPLOS"]
 journal_names = ["TSE", "TOSEM", "TDSC", "TPDS", "ESE"]
 
-key_words = ["AAA BBB", "CCC DDD", "EEE FFF GGG"]
+key_words = ["AAA BBB CCCC", "XXX XXX XXXX", "XXX XXX"]
 
-start_year = 2021
+start_year = 2012
 
 result_file_name = "search_result"
-# Customize the inputs above, and the crawler is ready to go. 
+# Customize the inputs above, and the crawler is ready to go.
 
 # Other parameters
 ## url example "https://dblp.org/search/publ/api?q=NAME%20cause%20venue%3AOSDI&h=1000&format=xml"
@@ -58,10 +59,13 @@ else:
 
 ## searching
 for name in tqdm(conference_names+journal_names, desc="{Searching}", delay=0.1):
-    tmp_titlelist = []  # "记录论文名称，防止重复"
+    tmp_titlelist = []  # "record name of the paper"
     for key_word in key_words:
         # example: "root cause venue:OSDI"
-        search_q = urllib.parse.quote(key_word + " venue:" + name)
+        if name in conference_names:
+            search_q = urllib.parse.quote(key_word + " venue:" + name)
+        else:
+            search_q = urllib.parse.quote(key_word + " stream:journals/" + name.lower() + ":")
         search_url = base_search_url_front + search_q + base_search_url_tail
         result_search = requests.get(search_url)
         # warn the 404
@@ -111,5 +115,23 @@ with open(result_file_name + ".md", "w", encoding="utf-8") as file:
             file.write("| {} | {} | [article_link]({}) | [bib]({}) |\n".format(i[1], i[0], i[2], i[3]))
         file.write("\n\n")
 
-np.save(result_file_name + ".npy", result_dict, allow_pickle=True)
+for name in result_dict.keys():
+    pd_table = []
+    for i in result_dict[name]:
+        tmp_dict = {"year": i[1], "title": i[0], "article_link": i[2], "bib_link": i[3]}
+        pd_table.append(tmp_dict)
+    if len(pd_table):
+        pd_table = pd.DataFrame(pd_table)
+        if os.path.exists(result_file_name + ".xlsx"):
+            mode = "a"
+        else:
+            mode = "w"
+        with pd.ExcelWriter(result_file_name + ".xlsx", mode=mode) as writer:
+            # write into different sheet 
+            pd_table.to_excel(writer,
+                              sheet_name=name,
+                              index=False,
+                              engine="openpyxl"
+                              )
 
+np.save(result_file_name + ".npy", result_dict, allow_pickle=True)
